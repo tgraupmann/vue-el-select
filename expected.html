@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>Vue Select Element</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="vue.js"></script>
+    <script>
+      Vue.component('vue-el-select', {
+        props: [ 'index' ],
+        methods: {
+          getRoot: function() {
+            return this.$root;
+          },
+          onChange: function(evt) {
+            this.getRoot().$data.selected[this.index] = evt.target.value;
+            console.log('data', JSON.stringify(this.$root.$data, null, 2));
+          }
+        },
+        template: `<select v-model="getRoot().$data.selected[this.index]" @change="onChange">
+            <option v-for="option in getRoot().$data.options" v-bind:value="option.value">
+              {{ option.text }}
+            </option>
+          </select>`
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root">
+      <vue-el-select index="0"></vue-el-select><br/>
+      <vue-el-select index="1"></vue-el-select><br/>
+      <vue-el-select index="2"></vue-el-select><br/>
+      <vue-el-select index="3"></vue-el-select><br/>
+      <vue-el-select index="4"></vue-el-select><br/>
+      <vue-el-select index="5"></vue-el-select><br/>
+    </div>
+
+    <script>
+      var vue = new Vue({
+        el: '#root',
+        data: {
+          selected: [
+            'B',
+            'A',
+            'B',
+            'A',
+            'B',
+            'C'
+          ],
+          options: [
+            { text: 'One', value: 'A' },
+            { text: 'Two', value: 'B' },
+            { text: 'Three', value: 'C' }
+          ]
+        }
+      })
+    </script>
+
+  </body>
+</html>
